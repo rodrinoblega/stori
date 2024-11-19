@@ -29,6 +29,12 @@ func main() {
 		uses_cases.NewStoreTransactionsUseCase(database),
 	)
 
+	processDirectoryFiles := uses_cases.NewProcessDirectoryFilesUseCase(processFileUseCase)
+	err := processDirectoryFiles.Execute("/path")
+	if err != nil {
+		log.Fatalf("Error processing files in directory: %s, %v", "/path", err)
+	}
+
 	watchDirectory := uses_cases.NewWatchDirectoryUseCase(inputSource, processFileUseCase)
 	if err := watchDirectory.Execute(); err != nil {
 		log.Fatalf("Error executing watch directory: %v", err)

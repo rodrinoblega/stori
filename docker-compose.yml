@@ -12,12 +12,18 @@ services:
       - "5432:5432"
     networks:
       - backend
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 2s
+      timeout: 1s
+      retries: 5
 
   migrate:
     image: migrate/migrate
     container_name: migration_runner
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     entrypoint: >
       sh -c "
       until nc -z db 5432; do
@@ -36,14 +42,17 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: file-processor
+    depends_on:
+      - migrate
     image: file-processor
     volumes:
-      - /Users/rodrigonoblega/Repositories/stori:/path
+      - /Users/rodrigonoblega/Repositories/stori/path:/path
     networks:
           - backend
 
 volumes:
   db_data:
+  migrate-status:
 
 networks:
   backend:
