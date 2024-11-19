@@ -5,9 +5,20 @@ import (
 	"github.com/spf13/viper"
 )
 
-type Config struct {
-	Env string
-}
+type (
+	Config struct {
+		Env string
+		PgConfig
+	}
+
+	PgConfig struct {
+		PgUser       string
+		PgPassword   string
+		PgDatabase   string
+		PostgresPort string
+		PostgresHost string
+	}
+)
 
 func Load(env string) *Config {
 	if env == "" {
@@ -27,5 +38,12 @@ func Load(env string) *Config {
 
 	return &Config{
 		Env: env,
+		PgConfig: PgConfig{
+			PgUser:       viper.GetString("POSTGRES_USER"),
+			PgPassword:   viper.GetString("POSTGRES_PASSWORD"),
+			PgDatabase:   viper.GetString("POSTGRES_DB"),
+			PostgresPort: viper.GetString("POSTGRES_PORT"),
+			PostgresHost: viper.GetString("POSTGRES_HOST"),
+		},
 	}
 }

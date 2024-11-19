@@ -1,5 +1,36 @@
 version: "3.9"
 services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: story_db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+
+  migrate:
+    image: migrate/migrate
+    container_name: migration_runner
+    depends_on:
+      - db
+    entrypoint: >
+      sh -c "
+      until nc -z db 5432; do
+        echo 'Waiting for database...';
+        sleep 1;
+      done;
+      migrate -path /migrations -database postgres://postgres:example@db:5432/story_db?sslmode=disable up;
+      "
+    volumes:
+      - ./migrations:/migrations
+    networks:
+      - backend
+
   app:
     build:
       context: .
@@ -8,3 +39,11 @@ services:
     image: file-processor
     volumes:
       - /Users/rodrigonoblega/Repositories/stori:/path
+    networks:
+          - backend
+
+volumes:
+  db_data:
+
+networks:
+  backend:

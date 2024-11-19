@@ -60,7 +60,7 @@ func processRows(rows [][]string) (entities.Transactions, error) {
 			continue
 		}
 
-		if len(row) != 3 {
+		if len(row) != 4 {
 			return nil, fmt.Errorf("invalid row format at line %d: %v", i+1, row)
 		}
 
@@ -92,10 +92,11 @@ func processLine(row []string) (entities.Transaction, error) {
 	}
 
 	return entities.Transaction{
-		ID:               row[0],
+		TransactionID:    row[0],
 		Date:             date,
 		Amount:           amount,
 		TransactionsType: transationType,
+		AccountID:        row[3],
 	}, nil
 }
 
