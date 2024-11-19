@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: file-processor
+    image: file-processor
+    volumes:
+      - /Users/rodrigonoblega/Repositories/stori:/path
