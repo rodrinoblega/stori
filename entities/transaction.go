@@ -1,6 +1,9 @@
 package entities
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 type Transactions []Transaction
 
@@ -10,4 +13,11 @@ type Transaction struct {
 	Amount           float64
 	TransactionsType string
 	AccountID        string
+}
+
+func (t Transactions) GetAccountID() (string, error) {
+	if len(t) == 0 {
+		return "", fmt.Errorf("no transactions available to retrieve AccountID")
+	}
+	return t[0].AccountID, nil
 }

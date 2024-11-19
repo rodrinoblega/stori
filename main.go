@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/rodrinoblega/stori/adapters/email_sender"
 	"github.com/rodrinoblega/stori/adapters/repositories"
 	"github.com/rodrinoblega/stori/adapters/watchers"
 	"github.com/rodrinoblega/stori/config"
@@ -27,6 +28,13 @@ func main() {
 	processFileUseCase := uses_cases.NewProcessFileUseCase(
 		uses_cases.NewFileReaderUseCase(),
 		uses_cases.NewStoreTransactionsUseCase(database),
+		uses_cases.NewEmailSummaryUseCase(email_sender.NewSMTPEmailSender(
+			envConf.EmailHost,
+			envConf.EmailPort,
+			envConf.EmailUsername,
+			envConf.EmailPassword),
+			database,
+		),
 	)
 
 	processDirectoryFiles := uses_cases.NewProcessDirectoryFilesUseCase(processFileUseCase)

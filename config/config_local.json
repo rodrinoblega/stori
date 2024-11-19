@@ -3,5 +3,9 @@
   "POSTGRES_PASSWORD": "example",
   "POSTGRES_DB": "story_db",
   "POSTGRES_PORT": "5432",
-  "POSTGRES_HOST": "db"
+  "POSTGRES_HOST": "db",
+  "EMAIL_HOST": "smtp.gmail.com",
+  "EMAIL_PORT": "587",
+  "EMAIL_USERNAME": "stori.summary@gmail.com",
+  "EMAIL_PASSWORD": "koes kjfp yphw gore"
 }

@@ -26,6 +26,14 @@ func (d *Database) StoreTransactions(transactions entities.Transactions) error {
 	return nil
 }
 
+func (d *Database) GetAccountById(accountID int) (*entities.Account, error) {
+	var account entities.Account
+	if err := d.First(&account, accountID).Error; err != nil {
+		return nil, err
+	}
+	return &account, nil
+}
+
 func New(env *config.Config) *Database {
 	once.Do(func() {
 		instance = postgresDB(env)

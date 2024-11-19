@@ -4,10 +4,6 @@ import (
 	"github.com/rodrinoblega/stori/entities"
 )
 
-type Database interface {
-	StoreTransactions(transactions entities.Transactions) error
-}
-
 type StoreTransactionsUseCase struct {
 	database Database
 }

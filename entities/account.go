@@ -1,6 +1,7 @@
 package entities
 
 type Account struct {
-	Id   string
-	Name string
+	AccountID int    `gorm:"primaryKey;column:account_id"`
+	Name      string `gorm:"column:name"`
+	Mail      string `gorm:"column:mail"`
 }
