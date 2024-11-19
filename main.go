@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/rodrinoblega/stori/adapters/repositories"
 	"github.com/rodrinoblega/stori/adapters/watchers"
 	"github.com/rodrinoblega/stori/config"
-	"github.com/rodrinoblega/stori/frameworks/db"
 	"github.com/rodrinoblega/stori/uses_cases"
 	"log"
 	"os"
@@ -13,7 +13,7 @@ func main() {
 
 	envConf := config.Load(os.Getenv("ENV"))
 
-	database := db.New(envConf)
+	database := repositories.New(envConf)
 
 	var inputSource uses_cases.Watcher
 
@@ -29,9 +29,9 @@ func main() {
 		uses_cases.NewStoreTransactionsUseCase(database),
 	)
 
-	useCase := uses_cases.NewWatchFileUseCase(inputSource, processFileUseCase)
-	if err := useCase.Execute(); err != nil {
-		log.Fatalf("Error executing use case: %v", err)
+	watchDirectory := uses_cases.NewWatchDirectoryUseCase(inputSource, processFileUseCase)
+	if err := watchDirectory.Execute(); err != nil {
+		log.Fatalf("Error executing watch directory: %v", err)
 	}
 
 }

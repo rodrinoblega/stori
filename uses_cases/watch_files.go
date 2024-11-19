@@ -8,19 +8,19 @@ type Watcher interface {
 	WatchDirectory(processFile *ProcessFileUseCase) error
 }
 
-type WatchFileUseCase struct {
+type WatchDirectoryUseCase struct {
 	watcher     Watcher
 	processFile *ProcessFileUseCase
 }
 
-func NewWatchFileUseCase(watcher Watcher, processFile *ProcessFileUseCase) *WatchFileUseCase {
-	return &WatchFileUseCase{
+func NewWatchDirectoryUseCase(watcher Watcher, processFile *ProcessFileUseCase) *WatchDirectoryUseCase {
+	return &WatchDirectoryUseCase{
 		watcher:     watcher,
 		processFile: processFile,
 	}
 }
 
-func (w *WatchFileUseCase) Execute() error {
+func (w *WatchDirectoryUseCase) Execute() error {
 	if err := w.watcher.WatchDirectory(w.processFile); err != nil {
 		return err
 	}
