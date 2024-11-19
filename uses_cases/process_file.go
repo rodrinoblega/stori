@@ -1,24 +1,17 @@
 package uses_cases
 
-import "log"
-
-type InputSource interface {
-	WatchDirectory() error
-	GetFileContent(filePath string) ([]byte, error)
-}
+import "github.com/rodrinoblega/stori/entities"
 
 type ProcessFileUseCase struct {
-	input InputSource
+	fileReader *FileReaderUseCase
 }
 
-func NewProcessFileUseCase(input InputSource) *ProcessFileUseCase {
-	return &ProcessFileUseCase{input: input}
-}
-
-func (u *ProcessFileUseCase) Execute() error {
-	if err := u.input.WatchDirectory(); err != nil {
-		return err
+func NewProcessFileUseCase(fileReader *FileReaderUseCase) *ProcessFileUseCase {
+	return &ProcessFileUseCase{
+		fileReader: fileReader,
 	}
-	log.Println("Processing completed")
-	return nil
+}
+
+func (p *ProcessFileUseCase) Execute(filePath string) (entities.Transactions, error) {
+	return p.fileReader.Execute(filePath)
 }

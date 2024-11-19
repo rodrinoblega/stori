@@ -1,10 +1,10 @@
-package local
+package watchers
 
 import (
 	"errors"
 	"fmt"
 	"github.com/fsnotify/fsnotify"
-	"io/ioutil"
+	"github.com/rodrinoblega/stori/uses_cases"
 	"log"
 )
 
@@ -12,7 +12,7 @@ type LocalSource struct {
 	Directory string
 }
 
-func (l *LocalSource) WatchDirectory() error {
+func (l *LocalSource) WatchDirectory(processFile *uses_cases.ProcessFileUseCase) error {
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
 		return errors.New(fmt.Sprintf("error creating file watcher: %v", err))
@@ -34,6 +34,11 @@ func (l *LocalSource) WatchDirectory() error {
 			}
 			if event.Op&fsnotify.Create == fsnotify.Create {
 				log.Printf("New file detected: %s", event.Name)
+				transactions, err := processFile.Execute(event.Name)
+				if err != nil {
+					return fmt.Errorf("error creating transaction from csv : %v", err)
+				}
+				fmt.Println(transactions)
 			}
 		case err, ok := <-watcher.Errors:
 			if !ok {
@@ -42,8 +47,4 @@ func (l *LocalSource) WatchDirectory() error {
 			log.Printf("Error watching directory: %v", err)
 		}
 	}
-}
-
-func (l *LocalSource) GetFileContent(filePath string) ([]byte, error) {
-	return ioutil.ReadFile(filePath)
 }

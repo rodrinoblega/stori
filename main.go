@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/rodrinoblega/stori/adapters/input/local"
+	"github.com/rodrinoblega/stori/adapters/watchers"
 	"github.com/rodrinoblega/stori/config"
 	"github.com/rodrinoblega/stori/uses_cases"
 	"log"
@@ -12,16 +12,20 @@ func main() {
 
 	envConf := config.Load(os.Getenv("ENV"))
 
-	var inputSource uses_cases.InputSource
+	var inputSource uses_cases.Watcher
 
 	switch envConf.Env {
 	case "local":
-		inputSource = &local.LocalSource{Directory: "/path"}
+		inputSource = &watchers.LocalSource{Directory: "/path"}
 	default:
 		log.Fatalf("invalid environment: %s", envConf.Env)
 	}
 
-	useCase := uses_cases.NewProcessFileUseCase(inputSource)
+	processFileUseCase := uses_cases.NewProcessFileUseCase(
+		uses_cases.NewFileReaderUseCase(),
+	)
+
+	useCase := uses_cases.NewWatchFileUseCase(inputSource, processFileUseCase)
 	if err := useCase.Execute(); err != nil {
 		log.Fatalf("Error executing use case: %v", err)
 	}
