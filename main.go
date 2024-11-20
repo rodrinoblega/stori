@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/rodrinoblega/stori/adapters/email_sender"
 	"github.com/rodrinoblega/stori/adapters/repositories"
 	"github.com/rodrinoblega/stori/adapters/watchers"
@@ -13,6 +14,7 @@ import (
 func main() {
 
 	envConf := config.Load(os.Getenv("ENV"))
+	fmt.Println("Running environment: " + envConf.Env)
 
 	database := repositories.New(envConf)
 
