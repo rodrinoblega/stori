@@ -18,7 +18,9 @@ func NewSMTPEmailSender(host, port, username, password string) *SMTPEmailSender 
 
 func (s *SMTPEmailSender) SendEmail(to string, subject string, body string) error {
 	auth := smtp.PlainAuth("", s.username, s.password, s.host)
-	msg := []byte("Subject: " + subject + "\r\n\r\n" + body)
+	msg := []byte(fmt.Sprintf(
+		"From: %s\r\nTo: %s\r\nSubject: %s\r\nContent-Type: text/html; charset=\"utf-8\"\r\n\r\n%s",
+		"", to, subject, body))
 	address := fmt.Sprintf("%s:%s", s.host, s.port)
 
 	err := smtp.SendMail(address, auth, s.username, []string{to}, msg)

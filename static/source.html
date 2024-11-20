@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Summary</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .total-balance {
+            font-size: 1.5em;
+            color: #27ae60;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+        }
+        td {
+            background-color: #fafafa;
+        }
+        .footer {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .footer a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Account Summary Report</h2>
+        <div class="total-balance">
+            <strong>Total Balance:</strong> ${{.TotalBalance}}
+        </div>
+
+        <h3>Monthly Transaction Summary</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Month / Year</th>
+                    <th>Transaction Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .MonthYearTransactions}}
+                <tr>
+                    <td>{{.MonthYear}}</td>
+                    <td>{{.TransactionCount}}</td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+
+        <h3>Average Transaction Summary</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Average Credit Amount</th>
+                    <th>Average Debit Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>${{.AverageSummary.AverageCreditAmount}}</td>
+                    <td>${{.AverageSummary.AverageDebitAmount}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer">
+            <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExY25uYjIwZzltd2VtYnl5d25kNGg4eGZpZnZzdDM4bm1id2JnZWdqcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Vdxp9hdL8FLss1Urqj/giphy.gif" alt="Gift">
+        </div>
+    </div>
+</body>
+</html>
