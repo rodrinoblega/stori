@@ -44,7 +44,7 @@ func New(env *config.Config) *Database {
 
 func postgresDB(env *config.Config) *Database {
 	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=enable",
 		env.PostgresHost,
 		env.PgUser,
 		env.PgPassword,
