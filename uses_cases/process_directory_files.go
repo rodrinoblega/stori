@@ -46,11 +46,11 @@ func (p *ProcessDirectoryFilesUseCase) isCSVFile(info os.FileInfo) bool {
 
 func (p *ProcessDirectoryFilesUseCase) processCSVFile(filePath, fileName string) error {
 	log.Printf("Processing file: %s\n", fileName)
-	transactions, err := p.processFile.Execute(filePath)
+	err := p.processFile.Execute(filePath)
 	if err != nil {
 		return fmt.Errorf("file not processed: %w", err)
 	}
 
-	log.Printf("Successfully processed file: %s, Transactions: %+v\n", fileName, transactions)
+	log.Printf("Successfully processed file: %+v\n", fileName)
 	return nil
 }

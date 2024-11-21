@@ -34,11 +34,10 @@ func (l *LocalSource) WatchDirectory(processFile *uses_cases.ProcessFileUseCase)
 			}
 			if event.Op&fsnotify.Create == fsnotify.Create {
 				log.Printf("New file detected: %s", event.Name)
-				transactions, err := processFile.Execute(event.Name)
+				err := processFile.Execute(event.Name)
 				if err != nil {
 					return fmt.Errorf("error creating transaction from csv : %v", err)
 				}
-				fmt.Println(transactions)
 			}
 		case err, ok := <-watcher.Errors:
 			if !ok {

@@ -35,14 +35,6 @@ func (f *FileReaderUseCase) Execute(filePath string) (entities.Transactions, err
 	return transactions, nil
 }
 
-func openFile(filePath string) (*os.File, error) {
-	file, err := os.Open(filePath)
-	if err != nil {
-		return nil, fmt.Errorf("failed to open file %s: %v", filePath, err)
-	}
-	return file, nil
-}
-
 func readCSV(file *os.File) ([][]string, error) {
 	reader := csv.NewReader(file)
 	rows, err := reader.ReadAll()

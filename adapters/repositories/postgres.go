@@ -44,7 +44,7 @@ func New(env *config.Config) *Database {
 
 func postgresDB(env *config.Config) *Database {
 	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=enable",
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
 		env.PostgresHost,
 		env.PgUser,
 		env.PgPassword,
@@ -53,10 +53,12 @@ func postgresDB(env *config.Config) *Database {
 	)
 	fmt.Println(dsn)
 
+	fmt.Println("Connecting with db..")
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("Db connected")
 
 	return &Database{db}
 }
