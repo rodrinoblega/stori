@@ -1,8 +1,6 @@
 package uses_cases
 
-import (
-	"github.com/rodrinoblega/stori/src/entities"
-)
+import "github.com/rodrinoblega/stori/src/entities"
 
 type StoreTransactionsUseCase struct {
 	database Database

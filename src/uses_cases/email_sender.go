@@ -15,6 +15,7 @@ type EmailSender interface {
 type EmailSummaryUseCase struct {
 	emailSender EmailSender
 	database    Database
+	htmlPath    string
 }
 
 type EmailData struct {
@@ -23,10 +24,11 @@ type EmailData struct {
 	AverageSummary        entities.AverageSummary
 }
 
-func NewEmailSummaryUseCase(emailSender EmailSender, database Database) *EmailSummaryUseCase {
+func NewEmailSummaryUseCase(emailSender EmailSender, database Database, htmlPath string) *EmailSummaryUseCase {
 	return &EmailSummaryUseCase{
 		emailSender: emailSender,
 		database:    database,
+		htmlPath:    htmlPath,
 	}
 }
 
@@ -77,7 +79,7 @@ func (e *EmailSummaryUseCase) buildEmailData(transactions entities.Transactions)
 }
 
 func (e *EmailSummaryUseCase) generateEmailHTML(emailData EmailData) (string, error) {
-	tmpl, err := template.ParseFiles("static/source.html")
+	tmpl, err := template.ParseFiles(e.htmlPath)
 	if err != nil {
 		return "", fmt.Errorf("failed to parse email template: %w", err)
 	}

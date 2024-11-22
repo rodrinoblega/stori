@@ -6,6 +6,10 @@ import (
 	"os"
 )
 
+type ProcessFileExecutor interface {
+	Execute(filePath string) error
+}
+
 type ProcessFileUseCase struct {
 	fileReader        *FileReaderUseCase
 	storeTransactions *StoreTransactionsUseCase

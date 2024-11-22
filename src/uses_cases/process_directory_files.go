@@ -8,11 +8,15 @@ import (
 	"strings"
 )
 
-type ProcessDirectoryFilesUseCase struct {
-	processFile *ProcessFileUseCase
+type ProcessDirectoryFileExecutor interface {
+	Execute(filePath string) error
 }
 
-func NewProcessDirectoryFilesUseCase(processFile *ProcessFileUseCase) *ProcessDirectoryFilesUseCase {
+type ProcessDirectoryFilesUseCase struct {
+	processFile ProcessFileExecutor
+}
+
+func NewProcessDirectoryFilesUseCase(processFile ProcessFileExecutor) *ProcessDirectoryFilesUseCase {
 	return &ProcessDirectoryFilesUseCase{
 		processFile: processFile,
 	}
