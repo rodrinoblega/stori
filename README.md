@@ -54,6 +54,8 @@ In the local environment, the application is designed to continuously monitor a 
   - The transactions are stored in a postgres database inside the container
   - The transaction summary emails is sent by smtp.gmail.com service.
 
+[Watch the demo](https://www.loom.com/share/4b8f3bd4b2a34413bc453aeaace937f5)
+
 ![](static/StoriLocalDirectoryFlow.jpg)
 
 - Continuous Monitoring
@@ -64,6 +66,7 @@ In the local environment, the application is designed to continuously monitor a 
 
 ![](static/StoriLocalWatcherFlow.jpg)
 
+[Watch the demo](https://www.loom.com/share/8cbe21072b8248cabcb0d809fd9e57ab)
 
 This approach ensures that files added both before and after the application starts are processed seamlessly.
 
@@ -81,6 +84,8 @@ In the production environment, the architecture leverages AWS cloud services to 
     - The transaction summary emails are sent by AWS SES
 
 ![](static/StoriProdAWSFlow.jpg)
+
+[Watch the demo](https://www.loom.com/share/0709901cfb1f47e7bf1e803e8ee3584f) 
 
 ## External Libraries Used
 
