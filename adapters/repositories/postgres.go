@@ -51,14 +51,11 @@ func postgresDB(env *config.Config) *Database {
 		env.PgDatabase,
 		env.PostgresPort,
 	)
-	fmt.Println(dsn)
 
-	fmt.Println("Connecting with db..")
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("Db connected")
 
 	return &Database{db}
 }

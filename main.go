@@ -17,7 +17,7 @@ import (
 	"os"
 )
 
-const Path = "path"
+const Path = "/path"
 
 type S3Event struct {
 	Records []struct {

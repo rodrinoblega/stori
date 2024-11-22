@@ -8,12 +8,14 @@ import (
 	"log"
 )
 
+const Path = "/path"
+
 type Watcher struct {
 	Directory string
 }
 
 func NewWatcherPath(directory string) *Watcher {
-	return &Watcher{directory}
+	return &Watcher{Directory: directory}
 }
 
 func (l *Watcher) WatchDirectory(processFile *uses_cases.ProcessFileUseCase) error {
@@ -40,6 +42,7 @@ func (l *Watcher) WatchDirectory(processFile *uses_cases.ProcessFileUseCase) err
 				if err != nil {
 					return fmt.Errorf("error creating transaction from csv : %v", err)
 				}
+				log.Printf("Watching path: %s", Path)
 			}
 		case err, ok := <-watcher.Errors:
 			if !ok {
