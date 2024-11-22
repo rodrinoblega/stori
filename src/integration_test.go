@@ -22,10 +22,8 @@ func TestCompleteFlow_With_Test_Dependencies(t *testing.T) {
 
 	err := testDependencies.ProcessFile.Execute("./../path/txns1.csv")
 
-	// Assert no errors occurred
 	assert.NoError(t, err)
 
-	// Check if specific log messages were shown
 	logOutput := logBuffer.String()
 	assert.Contains(t, logOutput, "Reading file")
 	assert.Contains(t, logOutput, "Storing 4 transactions")
@@ -39,6 +37,5 @@ func Test_InvalidPathFile(t *testing.T) {
 
 	err := testDependencies.ProcessFile.Execute("./path/non-exist.csv")
 
-	// Assert no errors occurred
 	assert.Error(t, err, errors.New("failed to open file ./path/non-exist.csv: open ./path/non-exist.csv: no such file or directory"))
 }
