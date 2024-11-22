@@ -3,7 +3,7 @@ package uses_cases
 import (
 	"encoding/csv"
 	"fmt"
-	"github.com/rodrinoblega/stori/entities"
+	"github.com/rodrinoblega/stori/src/entities"
 	"os"
 	"strconv"
 	"time"

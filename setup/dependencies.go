@@ -1,12 +1,12 @@
 package setup
 
 import (
-	"github.com/rodrinoblega/stori/adapters/email_sender"
-	"github.com/rodrinoblega/stori/adapters/watchers"
 	"github.com/rodrinoblega/stori/config"
-	"github.com/rodrinoblega/stori/frameworks/database"
-	"github.com/rodrinoblega/stori/frameworks/email_service"
-	"github.com/rodrinoblega/stori/uses_cases"
+	"github.com/rodrinoblega/stori/src/adapters/email_sender"
+	"github.com/rodrinoblega/stori/src/adapters/watchers"
+	"github.com/rodrinoblega/stori/src/frameworks/database"
+	"github.com/rodrinoblega/stori/src/frameworks/email_service"
+	"github.com/rodrinoblega/stori/src/uses_cases"
 )
 
 type AppDependencies struct {

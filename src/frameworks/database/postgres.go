@@ -2,8 +2,8 @@ package database
 
 import (
 	"fmt"
-	"github.com/rodrinoblega/stori/adapters/repositories"
 	"github.com/rodrinoblega/stori/config"
+	"github.com/rodrinoblega/stori/src/adapters/repositories"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"sync"

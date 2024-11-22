@@ -1,7 +1,7 @@
 package uses_cases
 
 import (
-	"github.com/rodrinoblega/stori/entities"
+	"github.com/rodrinoblega/stori/src/entities"
 )
 
 type StoreTransactionsUseCase struct {

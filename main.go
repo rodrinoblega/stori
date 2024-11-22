@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/rodrinoblega/stori/config"
-	"github.com/rodrinoblega/stori/frameworks/event"
 	"github.com/rodrinoblega/stori/setup"
-	"github.com/rodrinoblega/stori/uses_cases"
+	"github.com/rodrinoblega/stori/src/frameworks/event"
+	"github.com/rodrinoblega/stori/src/uses_cases"
 	"log"
 	"os"
 )

@@ -3,7 +3,7 @@ package uses_cases
 import (
 	"bytes"
 	"fmt"
-	"github.com/rodrinoblega/stori/entities"
+	"github.com/rodrinoblega/stori/src/entities"
 	"html/template"
 	"strconv"
 )

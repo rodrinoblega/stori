@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/fsnotify/fsnotify"
-	"github.com/rodrinoblega/stori/uses_cases"
+	"github.com/rodrinoblega/stori/src/uses_cases"
 	"log"
 )
 

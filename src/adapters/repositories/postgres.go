@@ -2,7 +2,7 @@ package repositories
 
 import (
 	"fmt"
-	"github.com/rodrinoblega/stori/entities"
+	"github.com/rodrinoblega/stori/src/entities"
 	"gorm.io/gorm"
 )
 
