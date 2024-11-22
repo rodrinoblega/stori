@@ -64,9 +64,9 @@ In the local environment, the application is designed to continuously monitor a 
   - The transactions are stored in a postgres database inside the container
   - The transaction summary emails are sent by smtp.gmail.com service.
 
-![](static/StoriLocalWatcherFlow.jpg)
-
 [Watch the demo](https://www.loom.com/share/8cbe21072b8248cabcb0d809fd9e57ab)
+
+![](static/StoriLocalWatcherFlow.jpg)
 
 This approach ensures that files added both before and after the application starts are processed seamlessly.
 
@@ -83,9 +83,11 @@ In the production environment, the architecture leverages AWS cloud services to 
     - The transactions are stored in a AWS RDS postgres database
     - The transaction summary emails are sent by AWS SES
 
+[Watch the demo](https://www.loom.com/share/0709901cfb1f47e7bf1e803e8ee3584f)
+
 ![](static/StoriProdAWSFlow.jpg)
 
-[Watch the demo](https://www.loom.com/share/0709901cfb1f47e7bf1e803e8ee3584f) 
+
 
 ## External Libraries Used
 
