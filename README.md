@@ -1,4 +1,4 @@
-# Stori - Transaction CSV Processorçç!
+# Stori - Transaction CSV Processor
 
 ![technology Golang](https://img.shields.io/badge/technology-Golang-blue.svg)
 
@@ -6,8 +6,9 @@ A system that processes a file from a mounted directory and sends summary inform
 
 ## Clean Architecture
 
-The architecture is based on the concept of Clean Architecture. Clean Architecture is a software design principle to create a clear separation between different components of an application. This structure enhances maintainability, testability, and scalability by defining clear boundaries between layers. Organizing the code into distinct layers ensures that the business logic remains independent of external frameworks or infrastructure. This approach allows for easy adaptability to new requirements, facilitates testing, and promotes a clear structure that enhances collaboration and code readability
+The architecture is based on the concept of Clean Architecture. Clean Architecture is a software design principle to create a clear separation between different components of an application. This structure enhances maintainability, testability, and scalability by defining clear boundaries between layers.
 
+**Organizing the code into distinct layers ensures that the business logic remains independent of external frameworks or infrastructure, making it easier to adapt to future changes, such as switching from one external tool (e.g., PostgreSQL) to another (e.g., MongoDB), without impacting the core application logic.**
 The architecture consists of four main layers:
 
 - Entities: Core business logic and data structures.
@@ -37,21 +38,21 @@ volumes:
   - /your/local/directory:/path
   ```
 
-You can run the app locally with Docker executing
+You can run the app locally with Docker executing.
 
 ```docker compose up --build ```
 
 This command will:
-- Start a PostgreSQL locally in the port 5432
-- Make all the migration process using the files in /migrations
-- Start the Stori application locally
+- Start a PostgreSQL locally in the port 5432.
+- Make all the migration process using the files in /migrations.
+- Start the Stori application locally.
 
 In the local environment, the application is designed to continuously monitor a specified directory for new .csv files. This process consists of two main behaviors:
 
 - Initial Directory Scan:
   - When the application starts, it immediately scans the specified directory for existing .csv files.
   - If any .csv files are found, the application processes them as part of the startup routine.
-  - The transactions are stored in a postgres database inside the container
+  - The transactions are stored in a postgres database inside the container.
   - The transaction summary emails is sent by smtp.gmail.com service.
 
 [Watch the demo](https://www.loom.com/share/4b8f3bd4b2a34413bc453aeaace937f5)
@@ -61,7 +62,7 @@ In the local environment, the application is designed to continuously monitor a 
 - Continuous Monitoring
   - After the initial scan, the application keeps watching the directory for any new .csv files added in real-time.
   - When a new file is detected, it triggers the processing pipeline to handle the file.
-  - The transactions are stored in a postgres database inside the container
+  - The transactions are stored in a postgres database inside the container.
   - The transaction summary emails are sent by smtp.gmail.com service.
 
 [Watch the demo](https://www.loom.com/share/8cbe21072b8248cabcb0d809fd9e57ab)
@@ -80,8 +81,8 @@ In the production environment, the architecture leverages AWS cloud services to 
 - AWS Lambda Execution
     - The event notification invokes an AWS Lambda function, where the core processing logic of the application is deployed.
     - The Lambda function retrieves the uploaded .csv file from the S3 bucket and processes it as part of the pipeline.
-    - The transactions are stored in a AWS RDS postgres database
-    - The transaction summary emails are sent by AWS SES
+    - The transactions are stored in a AWS RDS postgres database.
+    - The transaction summary emails are sent by AWS SES.
 
 [Watch the demo](https://www.loom.com/share/0709901cfb1f47e7bf1e803e8ee3584f)
 
@@ -94,8 +95,8 @@ In the production environment, the architecture leverages AWS cloud services to 
 - fsnotify: Used to watch for file system changes. In the local environment, it monitors a directory for new .csv files to process.
 - viper: Provides configuration management. It reads configuration from environment variables or configuration files.
 - gorm.io/gorm: An ORM (Object-Relational Mapping) library for Go.
-- go.gorm/postgres: PostgreSQL database driver for GORM
-- testify: Provides assertions and mocking capabilities for unit testing
+- go.gorm/postgres: PostgreSQL database driver for GORM.
+- testify: Provides assertions and mocking capabilities for unit testing.
 - aws-sdk-go: AWS SDK for Go. It is used to interact with AWS services.
 
 ## Assumptions
