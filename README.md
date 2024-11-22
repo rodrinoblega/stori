@@ -23,6 +23,20 @@ The architecture consists of four main layers:
 
 ### How to run the application
 
+This project uses Docker Compose to manage the necessary services (PostgreSQL, migrations, and the application). To run the project locally, follow the steps below.
+
+- In the docker-compose.yml file, the application service (app) has a volume mounted to a specific local path:
+```
+volumes:
+  - /Users/rodrigonoblega/Repositories/stori/path:/path
+```
+This path corresponds to the local directory where you store files for processing. You might need to change this to the appropriate path for your machine.
+To update open the docker-compose.yml file and change the path to the one that matches your local directory structure. For example:
+  ```
+volumes:
+  - /your/local/directory:/path
+  ```
+
 You can run the app locally with Docker executing
 
 ```docker compose up --build ```
