@@ -130,7 +130,7 @@ func createTempFile(dirPath string, body io.Reader) (string, error) {
 func intializeWatchDirectory(watcher uses_cases.Watcher, database uses_cases.Database, envConf *config.Config) *uses_cases.WatchDirectoryUseCase {
 	processFileUseCase := initializeProcessFile(database, envConf)
 
-	uses_cases.NewWatchDirectoryUseCase(watcher, processFileUseCase)
+	return uses_cases.NewWatchDirectoryUseCase(watcher, processFileUseCase)
 }
 
 func initializeProcessDirectoryFiles(database uses_cases.Database, envConf *config.Config) *uses_cases.ProcessDirectoryFilesUseCase {
