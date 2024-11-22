@@ -8,21 +8,21 @@ import (
 	"strings"
 )
 
-type ProcessDirectoryFileExecutor interface {
+type ProcessDirectoryExecutor interface {
 	Execute(filePath string) error
 }
 
-type ProcessDirectoryFilesUseCase struct {
+type ProcessDirectoryUseCase struct {
 	processFile ProcessFileExecutor
 }
 
-func NewProcessDirectoryFilesUseCase(processFile ProcessFileExecutor) *ProcessDirectoryFilesUseCase {
-	return &ProcessDirectoryFilesUseCase{
+func NewProcessDirectoryUseCase(processFile ProcessFileExecutor) *ProcessDirectoryUseCase {
+	return &ProcessDirectoryUseCase{
 		processFile: processFile,
 	}
 }
 
-func (p *ProcessDirectoryFilesUseCase) Execute(directoryPath string) error {
+func (p *ProcessDirectoryUseCase) Execute(directoryPath string) error {
 	err := filepath.Walk(directoryPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return fmt.Errorf("error accessing path %s: %w", path, err)
@@ -44,11 +44,11 @@ func (p *ProcessDirectoryFilesUseCase) Execute(directoryPath string) error {
 	return nil
 }
 
-func (p *ProcessDirectoryFilesUseCase) isCSVFile(info os.FileInfo) bool {
+func (p *ProcessDirectoryUseCase) isCSVFile(info os.FileInfo) bool {
 	return !info.IsDir() && strings.HasSuffix(info.Name(), ".csv")
 }
 
-func (p *ProcessDirectoryFilesUseCase) processCSVFile(filePath, fileName string) error {
+func (p *ProcessDirectoryUseCase) processCSVFile(filePath, fileName string) error {
 	log.Printf("Processing file: %s\n", fileName)
 	err := p.processFile.Execute(filePath)
 	if err != nil {

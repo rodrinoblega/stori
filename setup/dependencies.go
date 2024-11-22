@@ -14,14 +14,14 @@ type AppDependencies struct {
 	DB               uses_cases.Database
 	FileWatcher      uses_cases.Watcher
 	ProcessFile      *uses_cases.ProcessFileUseCase
-	ProcessDirectory *uses_cases.ProcessDirectoryFilesUseCase
+	ProcessDirectory *uses_cases.ProcessDirectoryUseCase
 }
 
 func InitializeProdDependencies(envConf *config.Config) *AppDependencies {
 	db := database.New(envConf)
 	watcher := watchers.NewWatcherPath("/path")
 	processFile := initializeProdProcessFile(db)
-	processDirectory := uses_cases.NewProcessDirectoryFilesUseCase(processFile)
+	processDirectory := uses_cases.NewProcessDirectoryUseCase(processFile)
 
 	return &AppDependencies{
 		DB:               db,
@@ -35,7 +35,7 @@ func InitializeTestDependencies(envConf *config.Config) *AppDependencies {
 	db := repositories.NewMockTestDB()
 	watcher := watchers.NewWatcherPath("/path")
 	processFile := initializeTestProcessFile(db, envConf)
-	processDirectory := uses_cases.NewProcessDirectoryFilesUseCase(processFile)
+	processDirectory := uses_cases.NewProcessDirectoryUseCase(processFile)
 
 	return &AppDependencies{
 		DB:               db,
@@ -49,7 +49,7 @@ func InitializeLocalDependencies(envConf *config.Config) *AppDependencies {
 	db := database.New(envConf)
 	watcher := watchers.NewWatcherPath("/path")
 	processFile := initializeLocalProcessFile(db, envConf)
-	processDirectory := uses_cases.NewProcessDirectoryFilesUseCase(processFile)
+	processDirectory := uses_cases.NewProcessDirectoryUseCase(processFile)
 
 	return &AppDependencies{
 		DB:               db,

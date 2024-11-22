@@ -19,7 +19,7 @@ func (m *MockProcessFileUseCase) Execute(filePath string) error {
 
 func TestProcessDirectoryFilesUseCase_Execute_ValidCSVFile(t *testing.T) {
 	mockProcessFile := new(MockProcessFileUseCase)
-	useCase := NewProcessDirectoryFilesUseCase(mockProcessFile)
+	useCase := NewProcessDirectoryUseCase(mockProcessFile)
 
 	mockProcessFile.On("Execute", "testdata/valid_transactions.csv").Return(nil)
 
@@ -31,7 +31,7 @@ func TestProcessDirectoryFilesUseCase_Execute_ValidCSVFile(t *testing.T) {
 
 func TestProcessDirectoryFilesUseCase_Execute_DirectoryError(t *testing.T) {
 	mockProcessFile := new(MockProcessFileUseCase)
-	useCase := NewProcessDirectoryFilesUseCase(mockProcessFile)
+	useCase := NewProcessDirectoryUseCase(mockProcessFile)
 
 	err := useCase.Execute("invalid/directory/path")
 	assert.Error(t, err)
@@ -39,7 +39,7 @@ func TestProcessDirectoryFilesUseCase_Execute_DirectoryError(t *testing.T) {
 
 func TestProcessDirectoryFilesUseCase_Execute_IgnoreNonCSVFiles(t *testing.T) {
 	mockProcessFile := new(MockProcessFileUseCase)
-	useCase := NewProcessDirectoryFilesUseCase(mockProcessFile)
+	useCase := NewProcessDirectoryUseCase(mockProcessFile)
 
 	err := useCase.Execute("testdata/other.txt")
 	assert.NoError(t, err)
@@ -49,7 +49,7 @@ func TestProcessDirectoryFilesUseCase_Execute_IgnoreNonCSVFiles(t *testing.T) {
 
 func TestProcessDirectoryFilesUseCase_Execute_FileProcessingError(t *testing.T) {
 	mockProcessFile := new(MockProcessFileUseCase)
-	useCase := NewProcessDirectoryFilesUseCase(mockProcessFile)
+	useCase := NewProcessDirectoryUseCase(mockProcessFile)
 
 	mockProcessFile.On("Execute", "testdata/valid_transactions.csv").Return(errors.New("file processing error"))
 
@@ -59,7 +59,7 @@ func TestProcessDirectoryFilesUseCase_Execute_FileProcessingError(t *testing.T) 
 
 func TestProcessDirectoryFilesUseCase_Execute_ValidDirectoryAndFile(t *testing.T) {
 	mockProcessFile := new(MockProcessFileUseCase)
-	useCase := NewProcessDirectoryFilesUseCase(mockProcessFile)
+	useCase := NewProcessDirectoryUseCase(mockProcessFile)
 
 	// Simulate directory with a valid CSV file
 	mockProcessFile.On("Execute", "testdata/valid_transactions.csv").Return(nil)
