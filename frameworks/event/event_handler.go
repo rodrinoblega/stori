@@ -1,9 +1,10 @@
-package aws_cloud
+package event
 
 import (
 	"context"
 	"fmt"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/rodrinoblega/stori/frameworks/storage"
 	"github.com/rodrinoblega/stori/setup"
 	"io"
 	"log"
@@ -11,9 +12,9 @@ import (
 )
 
 func S3Handler(dependencies *setup.AppDependencies) {
-	lambda.Start(func(ctx context.Context, event S3Event) error {
+	lambda.Start(func(ctx context.Context, event storage.S3Event) error {
 		log.Printf("Received event: %v", event)
-		result, err := FetchS3Object(event)
+		result, err := storage.FetchS3Object(event)
 		if err != nil {
 			log.Printf("Failed to fetch object: %v", err)
 			return fmt.Errorf("failed to fetch object: %w", err)

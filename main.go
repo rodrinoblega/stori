@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/rodrinoblega/stori/config"
-	"github.com/rodrinoblega/stori/frameworks/aws_cloud"
+	"github.com/rodrinoblega/stori/frameworks/event"
 	"github.com/rodrinoblega/stori/setup"
 	"github.com/rodrinoblega/stori/uses_cases"
 	"log"
@@ -16,13 +16,12 @@ func main() {
 	configureLogFlags()
 
 	envConf := config.Load(os.Getenv("ENV"))
-	dependencies := setup.InitializeDependencies(envConf)
 
 	switch envConf.Env {
 	case "prod":
-		runProd(dependencies)
+		runProd(setup.InitializeProdDependencies(envConf))
 	case "local":
-		runLocal(dependencies)
+		runLocal(setup.InitializeLocalDependencies(envConf))
 	default:
 		log.Fatalf("invalid environment: %s", envConf.Env)
 	}
@@ -31,7 +30,7 @@ func main() {
 }
 
 func runProd(dependencies *setup.AppDependencies) {
-	aws_cloud.S3Handler(dependencies)
+	event.S3Handler(dependencies)
 }
 
 func runLocal(dependencies *setup.AppDependencies) {

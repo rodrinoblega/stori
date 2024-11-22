@@ -1,4 +1,4 @@
-package aws_cloud
+package storage
 
 import (
 	"github.com/aws/aws-sdk-go/aws"
