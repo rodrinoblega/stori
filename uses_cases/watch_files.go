@@ -1,9 +1,5 @@
 package uses_cases
 
-import (
-	"log"
-)
-
 type Watcher interface {
 	WatchDirectory(processFile *ProcessFileUseCase) error
 }
@@ -24,6 +20,5 @@ func (w *WatchDirectoryUseCase) Execute() error {
 	if err := w.watcher.WatchDirectory(w.processFile); err != nil {
 		return err
 	}
-	log.Println("Processing completed")
 	return nil
 }

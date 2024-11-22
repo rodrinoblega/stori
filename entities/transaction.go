@@ -26,6 +26,10 @@ type AverageSummary struct {
 	AverageDebitAmount  float64
 }
 
+func (t Transactions) Length() int {
+	return len(t)
+}
+
 func (t Transactions) GetAccountID() (string, error) {
 	if len(t) == 0 {
 		return "", fmt.Errorf("no transactions available to retrieve AccountID")

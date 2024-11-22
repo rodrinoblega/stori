@@ -17,6 +17,8 @@ import (
 	"os"
 )
 
+const Path = "path"
+
 type S3Event struct {
 	Records []struct {
 		S3 struct {
@@ -31,31 +33,32 @@ type S3Event struct {
 }
 
 func main() {
+	configureLogFlags()
+
 	envConf := config.Load(os.Getenv("ENV"))
-	fmt.Println("Running environment: " + envConf.Env)
 
 	switch envConf.Env {
+	case "prod":
+		lambda.Start(handler)
 	case "local":
+		log.Printf("Environment: %s", envConf.Env)
+		log.Printf("Initializing the database connection")
 		database := repositories.New(envConf)
 
-		var inputSource uses_cases.Watcher
-
-		inputSource = &watchers.LocalSource{Directory: "/path"}
-
-		processFileUseCase := initializeProcessFileUseCase(database, envConf)
-
-		processDirectoryFiles := uses_cases.NewProcessDirectoryFilesUseCase(processFileUseCase)
+		log.Printf("Evaluating if there are any files in the directory")
+		processDirectoryFiles := initializeProcessDirectoryFiles(database, envConf)
 		err := processDirectoryFiles.Execute("/path")
 		if err != nil {
 			log.Fatalf("Error processing files in directory: %s, %v", "/path", err)
 		}
 
-		watchDirectory := uses_cases.NewWatchDirectoryUseCase(inputSource, processFileUseCase)
+		watcher := watchers.NewWatcherPath(Path)
+
+		log.Printf("Watching path: %s", Path)
+		watchDirectory := intializeWatchDirectory(watcher, database, envConf)
 		if err := watchDirectory.Execute(); err != nil {
 			log.Fatalf("Error executing watch directory: %v", err)
 		}
-	case "prod":
-		lambda.Start(handler)
 	default:
 		log.Fatalf("invalid environment: %s", envConf.Env)
 	}
@@ -65,28 +68,32 @@ func main() {
 
 func handler(_ context.Context, event S3Event) {
 	envConf := config.Load(os.Getenv("ENV"))
-	fmt.Println("Running environment: " + envConf.Env)
+	log.Printf("Environment: %s", envConf.Env)
 
+	log.Printf("Initializing the database connection")
 	database := repositories.New(envConf)
 
+	log.Printf("Fetching S3 event data")
 	result, err := fetchS3Object(event)
 	if err != nil {
 		log.Fatalf("Failed to fetch object: %v", err)
 	}
 	defer result.Body.Close()
 
+	log.Printf("Creating a temp file")
 	tempFile, err := createTempFile("/tmp/txns.csv", result.Body)
 	if err != nil {
 		log.Fatalf("error creating temp file: %v", err)
 	}
 
-	processFileUseCase := initializeProcessFileUseCase(database, envConf)
+	processFileUseCase := initializeProcessFile(database, envConf)
 
+	log.Printf("Processing the new file")
 	if err := processFileUseCase.Execute(tempFile); err != nil {
 		log.Fatalf("error processing files in directory: %v", err)
 	}
 
-	fmt.Println("The lambda process has finished")
+	log.Printf("Process completed")
 }
 
 func extractS3Details(event S3Event) (string, string) {
@@ -120,7 +127,18 @@ func createTempFile(dirPath string, body io.Reader) (string, error) {
 	return tempFilePath, nil
 }
 
-func initializeProcessFileUseCase(database uses_cases.Database, envConf *config.Config) *uses_cases.ProcessFileUseCase {
+func intializeWatchDirectory(watcher uses_cases.Watcher, database uses_cases.Database, envConf *config.Config) *uses_cases.WatchDirectoryUseCase {
+	processFileUseCase := initializeProcessFile(database, envConf)
+
+	uses_cases.NewWatchDirectoryUseCase(watcher, processFileUseCase)
+}
+
+func initializeProcessDirectoryFiles(database uses_cases.Database, envConf *config.Config) *uses_cases.ProcessDirectoryFilesUseCase {
+	processFileUseCase := initializeProcessFile(database, envConf)
+	return uses_cases.NewProcessDirectoryFilesUseCase(processFileUseCase)
+}
+
+func initializeProcessFile(database uses_cases.Database, envConf *config.Config) *uses_cases.ProcessFileUseCase {
 	emailSender := email_sender.NewSMTPEmailSender(
 		envConf.EmailHost,
 		envConf.EmailPort,
@@ -133,4 +151,9 @@ func initializeProcessFileUseCase(database uses_cases.Database, envConf *config.
 		uses_cases.NewStoreTransactionsUseCase(database),
 		uses_cases.NewEmailSummaryUseCase(emailSender, database),
 	)
+}
+
+func configureLogFlags() {
+	log.SetPrefix("[Stori-App] ")
+	log.SetFlags(log.Ldate | log.Ltime)
 }

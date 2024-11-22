@@ -8,11 +8,15 @@ import (
 	"log"
 )
 
-type LocalSource struct {
+type Watcher struct {
 	Directory string
 }
 
-func (l *LocalSource) WatchDirectory(processFile *uses_cases.ProcessFileUseCase) error {
+func NewWatcherPath(directory string) *Watcher {
+	return &Watcher{directory}
+}
+
+func (l *Watcher) WatchDirectory(processFile *uses_cases.ProcessFileUseCase) error {
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
 		return errors.New(fmt.Sprintf("error creating file watcher: %v", err))
@@ -23,8 +27,6 @@ func (l *LocalSource) WatchDirectory(processFile *uses_cases.ProcessFileUseCase)
 	if err != nil {
 		return errors.New(fmt.Sprintf("error adding directory to watcher: %v", err))
 	}
-
-	log.Printf("Watching directory: %s", l.Directory)
 
 	for {
 		select {

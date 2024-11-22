@@ -48,7 +48,7 @@ func processRows(rows [][]string) (entities.Transactions, error) {
 	var transactions entities.Transactions
 
 	for i, row := range rows {
-		if i == 0 { // Skip header row
+		if i == 0 {
 			continue
 		}
 

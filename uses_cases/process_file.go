@@ -2,6 +2,7 @@ package uses_cases
 
 import (
 	"fmt"
+	"log"
 	"os"
 )
 
@@ -20,16 +21,19 @@ func NewProcessFileUseCase(fileReader *FileReaderUseCase, storeTransactions *Sto
 }
 
 func (p *ProcessFileUseCase) Execute(filePath string) error {
+	log.Printf("Reading file")
 	transactions, err := p.fileReader.Execute(filePath)
 	if err != nil {
 		return err
 	}
 
+	log.Printf("Storing %d transactions", transactions.Length())
 	err = p.storeTransactions.Execute(transactions)
 	if err != nil {
 		return err
 	}
 
+	log.Printf("Sending mail with summary account information")
 	err = p.emailSender.Execute(transactions)
 	if err != nil {
 		return err
