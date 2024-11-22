@@ -32,7 +32,7 @@ func InitializeProdDependencies(envConf *config.Config) *AppDependencies {
 }
 
 func InitializeTestDependencies(envConf *config.Config) *AppDependencies {
-	db := repositories.NewMockTestDB()
+	db := repositories.NewDummyDB()
 	watcher := watchers.NewWatcherPath("/path")
 	processFile := initializeTestProcessFile(db, envConf)
 	processDirectory := uses_cases.NewProcessDirectoryUseCase(processFile)
@@ -60,7 +60,7 @@ func InitializeLocalDependencies(envConf *config.Config) *AppDependencies {
 }
 
 func initializeTestProcessFile(db uses_cases.Database, _ *config.Config) *uses_cases.ProcessFileUseCase {
-	emailSender := email_sender.NewMockTestMail()
+	emailSender := email_sender.NewDummyEmailSender()
 
 	return uses_cases.NewProcessFileUseCase(
 		uses_cases.NewFileReaderUseCase(),

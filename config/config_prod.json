@@ -3,9 +3,5 @@
   "POSTGRES_PASSWORD": "stori123.",
   "POSTGRES_DB": "story-db",
   "POSTGRES_PORT": "5432",
-  "POSTGRES_HOST": "stori-db.cr444aiey5ro.us-east-1.rds.amazonaws.com",
-  "EMAIL_HOST": "smtp.gmail.com",
-  "EMAIL_PORT": "587",
-  "EMAIL_USERNAME": "stori.summary@gmail.com",
-  "EMAIL_PASSWORD": "koes kjfp yphw gore"
+  "POSTGRES_HOST": "stori-db.cr444aiey5ro.us-east-1.rds.amazonaws.com"
 }

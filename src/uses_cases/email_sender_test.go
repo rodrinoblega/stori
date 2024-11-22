@@ -9,7 +9,6 @@ import (
 	"time"
 )
 
-// MockEmailSender is a mock implementation of the EmailSender interface
 type MockEmailSender struct {
 	mock.Mock
 }

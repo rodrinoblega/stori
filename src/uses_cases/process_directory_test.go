@@ -61,7 +61,6 @@ func TestProcessDirectoryFilesUseCase_Execute_ValidDirectoryAndFile(t *testing.T
 	mockProcessFile := new(MockProcessFileUseCase)
 	useCase := NewProcessDirectoryUseCase(mockProcessFile)
 
-	// Simulate directory with a valid CSV file
 	mockProcessFile.On("Execute", "testdata/valid_transactions.csv").Return(nil)
 
 	err := useCase.Execute("testdata/valid_transactions.csv")

@@ -36,7 +36,7 @@ func Load(env string) *Config {
 	viper.AutomaticEnv()
 	viper.SetConfigName(fmt.Sprintf("config_%s", env))
 	viper.SetConfigType("json")
-	viper.AddConfigPath("./../config") // local
+	viper.AddConfigPath("./../config") // test
 	viper.AddConfigPath("./config")    // local
 	viper.AddConfigPath("/app/config") // inside container
 
