@@ -3,7 +3,6 @@ package email_sender
 import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/service/ses"
-	"log"
 )
 
 type SESEmailSender struct {
@@ -27,12 +26,10 @@ func (s *SESEmailSender) SendEmail(to string, subject string, body string) error
 		RawMessage: rawMessage,
 	}
 
-	log.Println("Before sending mail")
 	_, err := s.client.SendRawEmail(emailInput)
 	if err != nil {
 		return fmt.Errorf("failed to send email: %w", err)
 	}
-	log.Println("After sending mail")
 
 	return nil
 }
